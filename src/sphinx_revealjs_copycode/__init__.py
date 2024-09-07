@@ -18,12 +18,18 @@ __version__ = "0.0.1"
 
 
 def setup(app: Sphinx) -> ExtensionMetadata:
+    metadata = ExtensionMetadata(
+        version=__version__, parallel_read_safe=False, parallel_write_safe=True
+    )
+
     import sphinx_revealjs
 
     sphinx_revealjs_path = Path(sphinx_revealjs.__path__[0])
     plugin_dir_path = (
         sphinx_revealjs_path / "themes/sphinx_revealjs/static/revealjs4/plugin"
     )
+    if (plugin_dir_path / "copycode").exists():
+        return metadata
 
     url = (
         "https://github.com/Martinomagnifico/reveal.js-copycode/"
@@ -43,6 +49,4 @@ def setup(app: Sphinx) -> ExtensionMetadata:
             plugin_dir_path,
         )
 
-    return ExtensionMetadata(
-        version=__version__, parallel_read_safe=False, parallel_write_safe=True
-    )
+    return metadata
