@@ -21,6 +21,7 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
 ]
 dynamic = ["version"]
+dependencies = ["sphinx-revealjs>1,<3"]
 
 [project.urls]
 Repository = "https://github.com/ftnext/sphinx-revealjs-copycode"
