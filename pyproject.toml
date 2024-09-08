@@ -4,13 +4,17 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sphinx-revealjs-copycode"
-description = "TODO write description or delete"
+description = "Sphinx extension to setup Reveal.js CopyCode plugin with sphinx-revealjs"
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT License" }
 authors = [{ name = "nikkie", email = "takuyafjp+develop@gmail.com" }]
-keywords = ["TODO", "write", "keywords"]
+keywords = ["Sphinx", "Reveal.js", "copy"]
 classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Framework :: Sphinx",
+    "Framework :: Sphinx :: Extension",
+    "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
@@ -19,6 +23,9 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Topic :: Documentation :: Sphinx",
+    "Topic :: Multimedia :: Graphics :: Presentation",
+    "Topic :: Text Processing :: Markup :: HTML",
 ]
 dynamic = ["version"]
 dependencies = ["sphinx-revealjs>1,<3"]
