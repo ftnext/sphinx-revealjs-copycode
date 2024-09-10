@@ -8,13 +8,14 @@ from typing import TYPE_CHECKING
 from urllib.request import urlopen
 from zipfile import ZipFile
 
+from sphinx.util import logging
 from sphinx.util.typing import ExtensionMetadata
 
 if TYPE_CHECKING:
     from sphinx.application import Sphinx
 
-
 __version__ = "0.1.0"
+logger = logging.getLogger(__name__)
 
 
 def setup(app: Sphinx) -> ExtensionMetadata:
@@ -29,8 +30,12 @@ def setup(app: Sphinx) -> ExtensionMetadata:
         sphinx_revealjs_path / "themes/sphinx_revealjs/static/revealjs4/plugin"
     )
     if (plugin_dir_path / "copycode").exists():
+        logger.info("✅ Reveal.js CopyCode plugin is already installed")
         return metadata
 
+    logger.info(
+        "Reveal.js CopyCode plugin is not yet installed. Need to install it"
+    )
     url = (
         "https://github.com/Martinomagnifico/reveal.js-copycode/"
         "archive/refs/tags/v1.2.0.zip"
@@ -48,5 +53,6 @@ def setup(app: Sphinx) -> ExtensionMetadata:
             tmpdir_path / "reveal.js-copycode-1.2.0/plugin/copycode",
             plugin_dir_path,
         )
+        logger.info("✅ Installed Reveal.js CopyCode plugin")
 
     return metadata
