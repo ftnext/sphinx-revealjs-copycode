@@ -1,6 +1,6 @@
 [build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project]
 name = "sphinx-revealjs-copycode"
@@ -36,8 +36,8 @@ Repository = "https://github.com/ftnext/sphinx-revealjs-copycode"
 [project.optional-dependencies]
 dev = ["taskipy", "autoflake", "pyupgrade", "black", "isort", "flake8", "mypy"]
 
-[tool.setuptools.dynamic]
-version = { attr = "sphinx_revealjs_copycode.__version__" }
+[tool.hatch.version]
+path = "src/sphinx_revealjs_copycode/__init__.py"
 
 [tool.hatch.envs.test-sphinx-revealjs2]
 dependencies = ["pytest", "pytest-randomly", "sphinx-revealjs>=2,<3"]
