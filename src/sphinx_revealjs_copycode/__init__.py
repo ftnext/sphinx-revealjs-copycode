@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import shutil
+from importlib.metadata import version
 from io import BytesIO
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -26,9 +27,13 @@ def setup(app: Sphinx) -> ExtensionMetadata:
     import sphinx_revealjs
 
     sphinx_revealjs_path = Path(sphinx_revealjs.__path__[0])
-    plugin_dir_path = (
-        sphinx_revealjs_path / "themes/sphinx_revealjs/static/revealjs4/plugin"
-    )
+    sphinx_revealjs_version = version("sphinx-revealjs")
+    plugin_dir_path = sphinx_revealjs_path / "_static/revealjs/plugin"
+    if sphinx_revealjs_version.startswith("2."):
+        plugin_dir_path = (
+            sphinx_revealjs_path
+            / "themes/sphinx_revealjs/static/revealjs4/plugin"
+        )
     if (plugin_dir_path / "copycode").exists():
         logger.info("✅ Reveal.js CopyCode plugin is already installed")
         return metadata
