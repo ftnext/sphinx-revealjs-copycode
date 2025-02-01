@@ -15,7 +15,7 @@ from sphinx.util.typing import ExtensionMetadata
 if TYPE_CHECKING:
     from sphinx.application import Sphinx
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 logger = logging.getLogger(__name__)
 
 
