@@ -28,30 +28,32 @@ classifiers = [
     "Topic :: Text Processing :: Markup :: HTML",
 ]
 dynamic = ["version"]
-dependencies = ["Sphinx>=7.3", "sphinx-revealjs>1,<3"]
+dependencies = ["Sphinx>=7.3", "sphinx-revealjs>=2,<4"]
 
 [project.urls]
 Repository = "https://github.com/ftnext/sphinx-revealjs-copycode"
 
 [project.optional-dependencies]
-dev = [
-    "taskipy",
-    "autoflake",
-    "pyupgrade",
-    "black",
-    "isort",
-    "pytest",
-    "pytest-randomly",
-    "flake8",
-    "mypy",
-]
+dev = ["taskipy", "autoflake", "pyupgrade", "black", "isort", "flake8", "mypy"]
 
 [tool.setuptools.dynamic]
 version = { attr = "sphinx_revealjs_copycode.__version__" }
 
+[tool.hatch.envs.test-sphinx-revealjs2]
+dependencies = ["pytest", "pytest-randomly", "sphinx-revealjs>=2,<3"]
+[tool.hatch.envs.test-sphinx-revealjs2.scripts]
+run = "pytest -s -v"
+
+[tool.hatch.envs.test-sphinx-revealjs3]
+dependencies = ["pytest", "pytest-randomly", "sphinx-revealjs>=3,<4"]
+[tool.hatch.envs.test-sphinx-revealjs3.scripts]
+run = "pytest -s -v"
+
 [tool.taskipy.tasks]
 pre_test = "task format"
-test = "pytest -v"
+test = "task test_v2 && task test_v3"
+test_v2 = "hatch env run -e test-sphinx-revealjs2 run"
+test_v3 = "hatch env run -e test-sphinx-revealjs3 run"
 post_test = "task check"
 format = "task format_autoflake && task format_pyupgrade && task format_black && task format_isort"
 format_autoflake = "autoflake --in-place --remove-all-unused-imports $(find src tests -name '*.py') setup.py"
