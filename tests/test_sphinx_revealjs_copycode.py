@@ -13,7 +13,7 @@ if TYPE_CHECKING:
     not version("sphinx-revealjs").startswith("2."),
     reason="requires sphinx-revealjs v2",
 )
-@pytest.mark.sphinx("revealjs", testroot="default")
+@pytest.mark.sphinx("revealjs", testroot="sphinx-revealjs-v2")
 def test_arrange_copycode_plugin_sphinx_revealjs_v2(
     app: SphinxTestApp,
 ) -> None:
@@ -26,7 +26,7 @@ def test_arrange_copycode_plugin_sphinx_revealjs_v2(
     not version("sphinx-revealjs").startswith("3."),
     reason="requires sphinx-revealjs v3",
 )
-@pytest.mark.sphinx("revealjs", testroot="default")
+@pytest.mark.sphinx("revealjs", testroot="sphinx-revealjs-v2")
 def test_arrange_copycode_plugin_sphinx_revealjs_v3(
     app: SphinxTestApp,
 ) -> None:
