@@ -26,7 +26,7 @@ def test_arrange_copycode_plugin_sphinx_revealjs_v2(
     not version("sphinx-revealjs").startswith("3."),
     reason="requires sphinx-revealjs v3",
 )
-@pytest.mark.sphinx("revealjs", testroot="sphinx-revealjs-v2")
+@pytest.mark.sphinx("revealjs", testroot="sphinx-revealjs-v3")
 def test_arrange_copycode_plugin_sphinx_revealjs_v3(
     app: SphinxTestApp,
 ) -> None:
