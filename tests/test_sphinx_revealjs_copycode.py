@@ -19,7 +19,7 @@ def test_arrange_copycode_plugin_sphinx_revealjs_v2(
 ) -> None:
     app.build()
 
-    assert (app.outdir / "_static/revealjs4/plugin/copycode").exists()
+    assert (app.outdir / "_static/revealjs/plugin/copycode").exists()
 
 
 @pytest.mark.skipif(

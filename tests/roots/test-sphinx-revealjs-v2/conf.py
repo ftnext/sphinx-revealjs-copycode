@@ -6,6 +6,6 @@ extensions = [
 revealjs_script_plugins = [
     {
         "name": "CopyCode",
-        "src": "revealjs4/plugin/copycode/copycode.js",
+        "src": "revealjs/plugin/copycode/copycode.js",
     },
 ]
