@@ -56,16 +56,10 @@ def copy_copycode_assets(app: Sphinx, exc):
             )
             logger.info("✅ Installed Reveal.js CopyCode plugin")
 
-    for asset in ["copycode.css", "copycode.esm.js", "copycode.js"]:
-        copy_asset(
-            plugin_dir_path / "copycode" / asset,
-            app.outdir
-            / "_static"
-            / "revealjs"
-            / "plugin"
-            / "copycode"
-            / asset,
-        )
+    copy_asset(
+        plugin_dir_path / "copycode",
+        app.outdir / "_static" / "revealjs" / "plugin" / "copycode",
+    )
 
 
 def setup(app: Sphinx) -> ExtensionMetadata:
