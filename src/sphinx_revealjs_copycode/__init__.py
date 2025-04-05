@@ -20,6 +20,8 @@ logger = logging.getLogger(__name__)
 
 
 def copy_copycode_assets(app: Sphinx, exc):
+    if app.builder.name != "revealjs":
+        return
     if exc is not None:  # Build failed
         return
 
