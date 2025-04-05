@@ -9,21 +9,23 @@ from urllib.request import urlopen
 from zipfile import ZipFile
 
 from sphinx.util import logging
-from sphinx.util.fileutil import copy_asset
 from sphinx.util.typing import ExtensionMetadata
 
 if TYPE_CHECKING:
     from sphinx.application import Sphinx
+    from sphinx.config import Config
 
 __version__ = "0.2.0"
 logger = logging.getLogger(__name__)
 
 
-def copy_copycode_assets(app: Sphinx, exc):
-    if exc is not None:  # Build failed
-        return
+def get_internal_static_path() -> Path:
+    return Path(__file__).parent / "_static"
 
-    plugin_dir_path = Path(__file__).parent / "_static"
+
+def download_copycode_assets(app: Sphinx, config: Config) -> None:
+    static_dir_path = get_internal_static_path()
+    plugin_dir_path = static_dir_path / "revealjs" / "plugin"
     plugin_dir_path.mkdir(parents=True, exist_ok=True)
 
     if (plugin_dir_path / "copycode").exists():
@@ -56,10 +58,9 @@ def copy_copycode_assets(app: Sphinx, exc):
             )
             logger.info("✅ Installed Reveal.js CopyCode plugin")
 
-    copy_asset(
-        plugin_dir_path / "copycode",
-        app.outdir / "_static" / "revealjs" / "plugin" / "copycode",
-    )
+
+def tweak_builder_config(app: Sphinx) -> None:
+    app.config.html_static_path.append(str(get_internal_static_path()))
 
 
 def setup(app: Sphinx) -> ExtensionMetadata:
@@ -67,6 +68,7 @@ def setup(app: Sphinx) -> ExtensionMetadata:
         version=__version__, parallel_read_safe=False, parallel_write_safe=True
     )
 
-    app.connect("build-finished", copy_copycode_assets)
+    app.connect("config-inited", download_copycode_assets)
+    app.connect("builder-inited", tweak_builder_config)
 
     return metadata

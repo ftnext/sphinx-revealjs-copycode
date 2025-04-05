@@ -2,9 +2,11 @@
 
 # _static/ (here)
 # ├── .gitignore (this file)
-# └── copycode/
-#     ├── copycode.css
-#     ├── copycode.esm.js
-#     └── copycode.js
+# └── revealjs/
+#     └── plugin/
+#         └── copycode/
+#             ├── copycode.css
+#             ├── copycode.esm.js
+#             └── copycode.js
 
-copycode/
+revealjs/
