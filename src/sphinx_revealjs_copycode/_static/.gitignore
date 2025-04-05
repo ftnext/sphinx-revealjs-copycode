@@ -1,0 +1,10 @@
+# sphinx-revealjs-copycode downloads Martinomagnifico/reveal.js-copycode's assets here.
+
+# _static/ (here)
+# ├── .gitignore (this file)
+# └── copycode/
+#     ├── copycode.css
+#     ├── copycode.esm.js
+#     └── copycode.js
+
+copycode/
