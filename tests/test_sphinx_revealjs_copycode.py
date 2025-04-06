@@ -66,3 +66,29 @@ def test_script_refer_copycode(app: SphinxTestApp) -> None:
     soup = BeautifulSoup(contents, "html.parser")
     script = soup.find_all("script")[-1]
     assert "CopyCode" in str(script)
+
+
+@pytest.mark.sphinx("revealjs", testroot="with-other-revealjs-plugins")
+def test_script_src_copycode_plugin_with_other_plugins(
+    app: SphinxTestApp,
+) -> None:
+    app.build()
+
+    contents = (app.outdir / "index.html").read_text()
+    soup = BeautifulSoup(contents, "html.parser")
+    elements = [
+        e
+        for e in soup.find_all("script")
+        if e.get("src") == "_static/revealjs/plugin/copycode/copycode.js"
+    ]
+    assert len(elements) == 1
+
+
+@pytest.mark.sphinx("revealjs", testroot="with-other-revealjs-plugins")
+def test_script_refer_copycode_with_other_plugins(app: SphinxTestApp) -> None:
+    app.build()
+
+    contents = (app.outdir / "index.html").read_text()
+    soup = BeautifulSoup(contents, "html.parser")
+    script = soup.find_all("script")[-1]
+    assert "CopyCode" in str(script)
