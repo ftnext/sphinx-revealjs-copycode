@@ -45,13 +45,13 @@ dependencies = ["pytest", "pytest-randomly", "sphinx-revealjs>=2,<3"]
 run = "pytest -s -v"
 
 [tool.hatch.envs.test-sphinx-revealjs3]
-dependencies = ["pytest", "pytest-randomly", "sphinx-revealjs>=3,<4"]
+dependencies = ["pytest", "pytest-randomly", "sphinx-revealjs>=3,<4", "beautifulsoup4"]
 [tool.hatch.envs.test-sphinx-revealjs3.scripts]
 run = "pytest -s -v"
 
 [tool.taskipy.tasks]
 pre_test = "task format"
-test = "task test_v2 && task test_v3"
+test = "task test_v3"
 test_v2 = "hatch env remove test-sphinx-revealjs2 && hatch env run -e test-sphinx-revealjs2 run"
 test_v3 = "hatch env remove test-sphinx-revealjs3 && hatch env run -e test-sphinx-revealjs3 run"
 post_test = "task check"

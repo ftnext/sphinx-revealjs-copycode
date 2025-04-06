@@ -4,6 +4,7 @@ from importlib.metadata import version
 from typing import TYPE_CHECKING
 
 import pytest
+from bs4 import BeautifulSoup
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -61,3 +62,16 @@ def test_arrange_copycode_plugin_sphinx_revealjs_v3(
     )
     assert_directory_exists(expected_copycode_directory)
     assert_copycode_static_files_exist(expected_copycode_directory)
+
+    # ref: https://github.com/attakei/sphinx-revealjs/blob/v3.2.0/tests/test_configurations/test_scripts.py  # noqa: E501
+    contents = (app.outdir / "index.html").read_text()
+    soup = BeautifulSoup(contents, "html.parser")
+    elements = [
+        e
+        for e in soup.find_all("script")
+        if e.get("src") == "_static/revealjs/plugin/copycode/copycode.js"
+    ]
+    assert len(elements) == 1
+
+    script = soup.find_all("script")[-1]
+    assert "CopyCode" in str(script)
