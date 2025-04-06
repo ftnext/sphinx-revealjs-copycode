@@ -41,6 +41,11 @@ def test_arrange_copycode_plugin(
     assert_directory_exists(expected_copycode_directory)
     assert_copycode_static_files_exist(expected_copycode_directory)
 
+
+@pytest.mark.sphinx("revealjs", testroot="sphinx-revealjs")
+def test_script_src_copycode_plugin(app: SphinxTestApp) -> None:
+    app.build()
+
     # ref: https://github.com/attakei/sphinx-revealjs/blob/v3.2.0/tests/test_configurations/test_scripts.py  # noqa: E501
     contents = (app.outdir / "index.html").read_text()
     soup = BeautifulSoup(contents, "html.parser")
@@ -51,5 +56,13 @@ def test_arrange_copycode_plugin(
     ]
     assert len(elements) == 1
 
+
+@pytest.mark.sphinx("revealjs", testroot="sphinx-revealjs")
+def test_script_refer_copycode(app: SphinxTestApp) -> None:
+    app.build()
+
+    # ref: https://github.com/attakei/sphinx-revealjs/blob/v3.2.0/tests/test_configurations/test_scripts.py  # noqa: E501
+    contents = (app.outdir / "index.html").read_text()
+    soup = BeautifulSoup(contents, "html.parser")
     script = soup.find_all("script")[-1]
     assert "CopyCode" in str(script)
