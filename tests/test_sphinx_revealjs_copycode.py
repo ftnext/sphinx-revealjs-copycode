@@ -29,7 +29,7 @@ def assert_copycode_static_files_exist(
     assert_file_exists(expected_copycode_directory / "copycode.esm.js")
 
 
-@pytest.mark.sphinx("revealjs", testroot="sphinx-revealjs")
+@pytest.mark.sphinx("revealjs", testroot="single-plugin-copycode")
 def test_arrange_copycode_plugin(
     app: SphinxTestApp,
 ) -> None:
@@ -42,7 +42,7 @@ def test_arrange_copycode_plugin(
     assert_copycode_static_files_exist(expected_copycode_directory)
 
 
-@pytest.mark.sphinx("revealjs", testroot="sphinx-revealjs")
+@pytest.mark.sphinx("revealjs", testroot="single-plugin-copycode")
 def test_script_src_copycode_plugin(app: SphinxTestApp) -> None:
     app.build()
 
@@ -57,7 +57,7 @@ def test_script_src_copycode_plugin(app: SphinxTestApp) -> None:
     assert len(elements) == 1
 
 
-@pytest.mark.sphinx("revealjs", testroot="sphinx-revealjs")
+@pytest.mark.sphinx("revealjs", testroot="single-plugin-copycode")
 def test_script_refer_copycode(app: SphinxTestApp) -> None:
     app.build()
 
