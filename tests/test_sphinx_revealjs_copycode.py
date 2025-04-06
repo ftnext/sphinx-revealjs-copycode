@@ -29,8 +29,8 @@ def assert_copycode_static_files_exist(
     assert_file_exists(expected_copycode_directory / "copycode.esm.js")
 
 
-@pytest.mark.sphinx("revealjs", testroot="sphinx-revealjs-v3")
-def test_arrange_copycode_plugin_sphinx_revealjs_v3(
+@pytest.mark.sphinx("revealjs", testroot="sphinx-revealjs")
+def test_arrange_copycode_plugin(
     app: SphinxTestApp,
 ) -> None:
     app.build()
