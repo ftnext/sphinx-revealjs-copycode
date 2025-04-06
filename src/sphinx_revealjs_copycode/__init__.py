@@ -14,9 +14,19 @@ from sphinx.util.typing import ExtensionMetadata
 
 if TYPE_CHECKING:
     from sphinx.application import Sphinx
+    from sphinx.config import Config
 
 __version__ = "0.2.0"
 logger = logging.getLogger(__name__)
+
+
+def tweak_builder_config(app: Sphinx, config: Config) -> None:
+    config.revealjs_script_plugins.append(
+        {
+            "name": "CopyCode",
+            "src": "revealjs/plugin/copycode/copycode.js",
+        }
+    )
 
 
 def copy_copycode_assets(app: Sphinx, exc):
@@ -69,6 +79,7 @@ def setup(app: Sphinx) -> ExtensionMetadata:
         version=__version__, parallel_read_safe=False, parallel_write_safe=True
     )
 
+    app.connect("config-inited", tweak_builder_config)
     app.connect("build-finished", copy_copycode_assets)
 
     return metadata
