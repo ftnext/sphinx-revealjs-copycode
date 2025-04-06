@@ -39,11 +39,6 @@ dev = ["taskipy", "autoflake", "pyupgrade", "black", "isort", "flake8", "mypy"]
 [tool.hatch.version]
 path = "src/sphinx_revealjs_copycode/__init__.py"
 
-[tool.hatch.envs.test-sphinx-revealjs2]
-dependencies = ["pytest", "pytest-randomly", "sphinx-revealjs>=2,<3"]
-[tool.hatch.envs.test-sphinx-revealjs2.scripts]
-run = "pytest -s -v"
-
 [tool.hatch.envs.test-sphinx-revealjs3]
 dependencies = ["pytest", "pytest-randomly", "sphinx-revealjs>=3,<4", "beautifulsoup4"]
 [tool.hatch.envs.test-sphinx-revealjs3.scripts]
@@ -51,9 +46,7 @@ run = "pytest -s -v"
 
 [tool.taskipy.tasks]
 pre_test = "task format"
-test = "task test_v3"
-test_v2 = "hatch env remove test-sphinx-revealjs2 && hatch env run -e test-sphinx-revealjs2 run"
-test_v3 = "hatch env remove test-sphinx-revealjs3 && hatch env run -e test-sphinx-revealjs3 run"
+test = "hatch env remove test-sphinx-revealjs3 && hatch env run -e test-sphinx-revealjs3 run"
 post_test = "task check"
 format = "task format_autoflake && task format_pyupgrade && task format_black && task format_isort"
 format_autoflake = "autoflake --in-place --remove-all-unused-imports $(find src tests -name '*.py') setup.py"
