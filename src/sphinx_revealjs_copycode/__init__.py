@@ -60,12 +60,18 @@ def download_copycode_plugin() -> None:
 
 
 def tweak_builder_config(app: Sphinx, config: Config) -> None:
-    config.revealjs_script_plugins.append(
+    revealjs_script_plugins = [
+        plugin
+        for plugin in config.revealjs_script_plugins
+        if plugin["name"] != "CopyCode"
+    ]
+    revealjs_script_plugins.append(
         {
             "name": "CopyCode",
             "src": "revealjs/plugin/copycode/copycode.js",
         }
     )
+    config.revealjs_script_plugins = revealjs_script_plugins
 
 
 def copy_copycode_assets(app: Sphinx, exc):
