@@ -5,6 +5,11 @@ from typing import TYPE_CHECKING
 import pytest
 from bs4 import BeautifulSoup
 
+from .helpers import (
+    assert_html_has_script_tag_with_src,
+    assert_revealjs_script_tag_with_code,
+)
+
 if TYPE_CHECKING:
     from sphinx.testing.util import SphinxTestApp
 
@@ -29,6 +34,9 @@ def test_script_src_no_revealjs4(app: SphinxTestApp) -> None:
     assert_html_not_have_script_tag_with_src(
         contents, "_static/revealjs4/plugin/copycode/copycode.js"
     )
+    assert_html_has_script_tag_with_src(
+        contents, "_static/revealjs/plugin/copycode/copycode.js"
+    )
 
 
 @pytest.mark.sphinx("revealjs", testroot="migrate-sphinx-revealjs-v2")
@@ -41,3 +49,4 @@ def test_copycode_should_not_duplicate_in_revealjs_script_tag(
     assert_revealjs_script_tag_doesnot_have_code(
         contents, "CopyCode,CopyCode,"
     )
+    assert_revealjs_script_tag_with_code(contents, "CopyCode,")
