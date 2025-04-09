@@ -44,7 +44,7 @@ extra-dependencies = ["beautifulsoup4"]
 
 [tool.taskipy.tasks]
 pre_test = "task format"
-test = "hatch env remove hatch-test && hatch test"
+test = "hatch env remove hatch-test && hatch test -- -s -vv"
 post_test = "task check"
 format = "task format_autoflake && task format_pyupgrade && task format_black && task format_isort"
 format_autoflake = "autoflake --in-place --remove-all-unused-imports $(find src tests -name '*.py') setup.py"
