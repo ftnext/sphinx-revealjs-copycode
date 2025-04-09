@@ -42,30 +42,40 @@ def test_arrange_copycode_plugin(
     assert_copycode_static_files_exist(expected_copycode_directory)
 
 
-@pytest.mark.sphinx("revealjs", testroot="single-plugin-copycode")
-def test_script_src_copycode_plugin(app: SphinxTestApp) -> None:
-    app.build()
-
-    # ref: https://github.com/attakei/sphinx-revealjs/blob/v3.2.0/tests/test_configurations/test_scripts.py  # noqa: E501
-    contents = (app.outdir / "index.html").read_text()
-    soup = BeautifulSoup(contents, "html.parser")
+def assert_html_has_script_tag_with_src(html: str, expected_src: str) -> None:
+    soup = BeautifulSoup(html, "html.parser")
     elements = [
-        e
-        for e in soup.find_all("script")
-        if e.get("src") == "_static/revealjs/plugin/copycode/copycode.js"
+        e for e in soup.find_all("script") if e.get("src") == expected_src
     ]
     assert len(elements) == 1
 
 
+def assert_revealjs_script_tag_with_code(
+    html: str, expected_code: str
+) -> None:
+    soup = BeautifulSoup(html, "html.parser")
+    revealjs_script = soup.find_all("script")[-1]
+    assert expected_code in str(revealjs_script)
+
+
 @pytest.mark.sphinx("revealjs", testroot="single-plugin-copycode")
-def test_script_refer_copycode(app: SphinxTestApp) -> None:
+def test_script_src_copycode_plugin(app: SphinxTestApp) -> None:
+    # ref: https://github.com/attakei/sphinx-revealjs/blob/v3.2.0/tests/test_configurations/test_scripts.py#L21  # noqa: E501
     app.build()
 
-    # ref: https://github.com/attakei/sphinx-revealjs/blob/v3.2.0/tests/test_configurations/test_scripts.py  # noqa: E501
     contents = (app.outdir / "index.html").read_text()
-    soup = BeautifulSoup(contents, "html.parser")
-    script = soup.find_all("script")[-1]
-    assert "CopyCode" in str(script)
+    assert_html_has_script_tag_with_src(
+        contents, "_static/revealjs/plugin/copycode/copycode.js"
+    )
+
+
+@pytest.mark.sphinx("revealjs", testroot="single-plugin-copycode")
+def test_script_refer_copycode(app: SphinxTestApp) -> None:
+    # ref: https://github.com/attakei/sphinx-revealjs/blob/v3.2.0/tests/test_configurations/test_scripts.py#L50  # noqa: E501
+    app.build()
+
+    contents = (app.outdir / "index.html").read_text()
+    assert_revealjs_script_tag_with_code(contents, "CopyCode")
 
 
 @pytest.mark.sphinx("revealjs", testroot="with-other-revealjs-plugins")
@@ -75,13 +85,9 @@ def test_script_src_copycode_plugin_with_other_plugins(
     app.build()
 
     contents = (app.outdir / "index.html").read_text()
-    soup = BeautifulSoup(contents, "html.parser")
-    elements = [
-        e
-        for e in soup.find_all("script")
-        if e.get("src") == "_static/revealjs/plugin/copycode/copycode.js"
-    ]
-    assert len(elements) == 1
+    assert_html_has_script_tag_with_src(
+        contents, "_static/revealjs/plugin/copycode/copycode.js"
+    )
 
 
 @pytest.mark.sphinx("revealjs", testroot="with-other-revealjs-plugins")
@@ -89,6 +95,4 @@ def test_script_refer_copycode_with_other_plugins(app: SphinxTestApp) -> None:
     app.build()
 
     contents = (app.outdir / "index.html").read_text()
-    soup = BeautifulSoup(contents, "html.parser")
-    script = soup.find_all("script")[-1]
-    assert "CopyCode" in str(script)
+    assert_revealjs_script_tag_with_code(contents, "CopyCode")
