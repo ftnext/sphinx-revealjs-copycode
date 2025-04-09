@@ -3,7 +3,11 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import pytest
-from bs4 import BeautifulSoup
+
+from .helpers import (
+    assert_html_has_script_tag_with_src,
+    assert_revealjs_script_tag_with_code,
+)
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -40,22 +44,6 @@ def test_arrange_copycode_plugin(
     )
     assert_directory_exists(expected_copycode_directory)
     assert_copycode_static_files_exist(expected_copycode_directory)
-
-
-def assert_html_has_script_tag_with_src(html: str, expected_src: str) -> None:
-    soup = BeautifulSoup(html, "html.parser")
-    elements = [
-        e for e in soup.find_all("script") if e.get("src") == expected_src
-    ]
-    assert len(elements) == 1
-
-
-def assert_revealjs_script_tag_with_code(
-    html: str, expected_code: str
-) -> None:
-    soup = BeautifulSoup(html, "html.parser")
-    revealjs_script = soup.find_all("script")[-1]
-    assert expected_code in str(revealjs_script)
 
 
 @pytest.mark.sphinx("revealjs", testroot="single-plugin-copycode")
