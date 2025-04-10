@@ -40,7 +40,30 @@ def test_script_src_no_revealjs4(app: SphinxTestApp) -> None:
 
 
 @pytest.mark.sphinx("revealjs", testroot="migrate-sphinx-revealjs-v2")
-def test_copycode_should_not_duplicate_in_revealjs_script_tag(
+def test_copycode_should_not_duplicate_in_revealjs_script_tag_v2(
+    app: SphinxTestApp,
+) -> None:
+    app.build()
+
+    contents = (app.outdir / "index.html").read_text()
+    assert_revealjs_script_tag_doesnot_have_code(
+        contents, "CopyCode,CopyCode,"
+    )
+    assert_revealjs_script_tag_with_code(contents, "CopyCode,")
+
+
+@pytest.mark.sphinx("revealjs", testroot="migrate-sphinx-revealjs-v3")
+def test_script_src_with_revealjs_only_once(app: SphinxTestApp) -> None:
+    app.build()
+
+    contents = (app.outdir / "index.html").read_text()
+    assert_html_has_script_tag_with_src(
+        contents, "_static/revealjs/plugin/copycode/copycode.js"
+    )
+
+
+@pytest.mark.sphinx("revealjs", testroot="migrate-sphinx-revealjs-v3")
+def test_copycode_should_not_duplicate_in_revealjs_script_tag_v3(
     app: SphinxTestApp,
 ) -> None:
     app.build()
