@@ -1,5 +1,7 @@
 # sphinx-revealjs-copycode
 
+[attakei/sphinx-revealjs](https://github.com/attakei/sphinx-revealjs) meets [Martinomagnifico/reveal.js-copycode](https://github.com/Martinomagnifico/reveal.js-copycode)!
+
 ## Usage
 
 Install in your sphinx-revealjs project.
