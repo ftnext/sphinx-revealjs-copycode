@@ -24,7 +24,7 @@ def get_plugin_dir() -> Path:
     return Path(__file__).parent / "_static"
 
 
-def download_copycode_plugin(version: str = "v1.2.0") -> None:
+def download_copycode_plugin(version: str) -> None:
     plugin_dir_path = get_plugin_dir()
     plugin_dir_path.mkdir(parents=True, exist_ok=True)
 
