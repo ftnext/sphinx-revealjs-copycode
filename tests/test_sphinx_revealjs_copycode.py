@@ -84,3 +84,17 @@ def test_script_refer_copycode_with_other_plugins(app: SphinxTestApp) -> None:
 
     contents = (app.outdir / "index.html").read_text()
     assert_revealjs_script_tag_with_code(contents, "CopyCode,")
+
+
+@pytest.mark.reinstall
+@pytest.mark.sphinx("revealjs", testroot="custom-copycode-version")
+def test_custom_copycode_version(app: SphinxTestApp) -> None:
+    app.build()
+
+    expected_copycode_directory = (
+        app.outdir / "_static/revealjs/plugin/copycode"
+    )
+    assert_directory_exists(expected_copycode_directory)
+    assert_file_exists(expected_copycode_directory / "copycode.js")
+    assert_file_exists(expected_copycode_directory / "copycode.css")
+    assert_file_exists(expected_copycode_directory / "copycode.mjs")
