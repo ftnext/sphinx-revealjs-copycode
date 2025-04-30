@@ -43,9 +43,7 @@ def download_copycode_plugin(version: str) -> None:
             bytes_stream = BytesIO(response.read())
         with ZipFile(bytes_stream) as zf, TemporaryDirectory() as tmpdir:
             tmpdir_path = Path(tmpdir)
-            version_number = (
-                version[1:] if version.startswith("v") else version
-            )
+            version_number = version.removeprefix("v")
             for plugin_file in [
                 "copycode.css",
                 "copycode.esm.js",
