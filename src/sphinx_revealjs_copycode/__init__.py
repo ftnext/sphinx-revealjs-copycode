@@ -24,7 +24,7 @@ def get_plugin_dir() -> Path:
     return Path(__file__).parent / "_static"
 
 
-def download_copycode_plugin(version: str) -> None:
+def download_copycode_plugin(tag: str) -> None:
     plugin_dir_path = get_plugin_dir()
     plugin_dir_path.mkdir(parents=True, exist_ok=True)
 
@@ -37,13 +37,13 @@ def download_copycode_plugin(version: str) -> None:
         )
         url = (
             f"https://github.com/Martinomagnifico/reveal.js-copycode/"
-            f"archive/refs/tags/{version}.zip"
+            f"archive/refs/tags/{tag}.zip"
         )
         with urlopen(url) as response:
             bytes_stream = BytesIO(response.read())
         with ZipFile(bytes_stream) as zf, TemporaryDirectory() as tmpdir:
             tmpdir_path = Path(tmpdir)
-            version_number = version.removeprefix("v")
+            version_number = tag.removeprefix("v")
             for plugin_file in [
                 "copycode.css",
                 "copycode.esm.js",
@@ -95,9 +95,9 @@ def setup(app: Sphinx) -> ExtensionMetadata:
         version=__version__, parallel_read_safe=False, parallel_write_safe=True
     )
 
-    app.add_config_value("revealjs_copycode_version", "v1.2.0", "html")
+    app.add_config_value("revealjs_copycode_tag", "v1.2.0", "html")
 
-    download_copycode_plugin(app.config.revealjs_copycode_version)
+    download_copycode_plugin(app.config.revealjs_copycode_tag)
 
     app.connect("config-inited", tweak_builder_config)
     app.connect("build-finished", copy_copycode_assets)

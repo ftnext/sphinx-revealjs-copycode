@@ -3,4 +3,4 @@ extensions = [
     "sphinx_revealjs_copycode",
 ]
 
-revealjs_copycode_version = "v1.3.0"
+revealjs_copycode_tag = "v1.3.0"
