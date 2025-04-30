@@ -24,7 +24,7 @@ def get_plugin_dir() -> Path:
     return Path(__file__).parent / "_static"
 
 
-def download_copycode_plugin() -> None:
+def download_copycode_plugin(version: str = "v1.2.0") -> None:
     plugin_dir_path = get_plugin_dir()
     plugin_dir_path.mkdir(parents=True, exist_ok=True)
 
@@ -36,24 +36,30 @@ def download_copycode_plugin() -> None:
             "Need to install it"
         )
         url = (
-            "https://github.com/Martinomagnifico/reveal.js-copycode/"
-            "archive/refs/tags/v1.2.0.zip"
+            f"https://github.com/Martinomagnifico/reveal.js-copycode/"
+            f"archive/refs/tags/{version}.zip"
         )
         with urlopen(url) as response:
             bytes_stream = BytesIO(response.read())
         with ZipFile(bytes_stream) as zf, TemporaryDirectory() as tmpdir:
             tmpdir_path = Path(tmpdir)
+            version_number = (
+                version[1:] if version.startswith("v") else version
+            )
             for plugin_file in [
                 "copycode.css",
                 "copycode.esm.js",
                 "copycode.js",
             ]:
+                base_path = f"reveal.js-copycode-{version_number}"
+                plugin_path = f"{base_path}/plugin/copycode/{plugin_file}"
                 zf.extract(
-                    f"reveal.js-copycode-1.2.0/plugin/copycode/{plugin_file}",
+                    plugin_path,
                     path=tmpdir_path,
                 )
             shutil.move(
-                tmpdir_path / "reveal.js-copycode-1.2.0/plugin/copycode",
+                tmpdir_path
+                / f"reveal.js-copycode-{version_number}/plugin/copycode",
                 plugin_dir_path,
             )
             logger.info("✅ Installed Reveal.js CopyCode plugin")
@@ -91,7 +97,9 @@ def setup(app: Sphinx) -> ExtensionMetadata:
         version=__version__, parallel_read_safe=False, parallel_write_safe=True
     )
 
-    download_copycode_plugin()
+    app.add_config_value("revealjs_copycode_version", "v1.2.0", "html")
+
+    download_copycode_plugin(app.config.revealjs_copycode_version)
 
     app.connect("config-inited", tweak_builder_config)
     app.connect("build-finished", copy_copycode_assets)
