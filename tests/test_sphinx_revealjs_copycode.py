@@ -1,8 +1,6 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
-from unittest import mock
-from urllib.request import urlopen
 
 import pytest
 
@@ -88,24 +86,15 @@ def test_script_refer_copycode_with_other_plugins(app: SphinxTestApp) -> None:
     assert_revealjs_script_tag_with_code(contents, "CopyCode,")
 
 
+@pytest.mark.reinstall
 @pytest.mark.sphinx("revealjs", testroot="custom-copycode-version")
-def test_custom_copycode_version(
-    app: SphinxTestApp,
-    monkeypatch,
-) -> None:
-    original_urlopen = urlopen
-
-    def mock_urlopen(url):
-        assert (
-            "v1.3.0.zip" in url
-        ), f"Expected URL to contain v1.3.0.zip, got {url}"
-
-        mock_response = mock.MagicMock()
-        mock_response.read.return_value = b"mock zip content"
-        return mock_response
-
-    monkeypatch.setattr("sphinx_revealjs_copycode.urlopen", mock_urlopen)
-
+def test_custom_copycode_version(app: SphinxTestApp) -> None:
     app.build()
 
-    monkeypatch.setattr("sphinx_revealjs_copycode.urlopen", original_urlopen)
+    expected_copycode_directory = (
+        app.outdir / "_static/revealjs/plugin/copycode"
+    )
+    assert_directory_exists(expected_copycode_directory)
+    assert_file_exists(expected_copycode_directory / "copycode.js")
+    assert_file_exists(expected_copycode_directory / "copycode.css")
+    assert_file_exists(expected_copycode_directory / "copycode.mjs")

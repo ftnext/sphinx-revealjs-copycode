@@ -46,15 +46,19 @@ def download_copycode_plugin(tag: str) -> None:
             version_number = tag.removeprefix("v")
             for plugin_file in [
                 "copycode.css",
-                "copycode.esm.js",
+                "copycode.esm.js",  # v1.2.0
                 "copycode.js",
+                "copycode.mjs",  # v1.3.0
             ]:
                 base_path = f"reveal.js-copycode-{version_number}"
                 plugin_path = f"{base_path}/plugin/copycode/{plugin_file}"
-                zf.extract(
-                    plugin_path,
-                    path=tmpdir_path,
-                )
+                try:
+                    zf.extract(
+                        plugin_path,
+                        path=tmpdir_path,
+                    )
+                except KeyError:
+                    pass
             shutil.move(
                 tmpdir_path
                 / f"reveal.js-copycode-{version_number}/plugin/copycode",
