@@ -28,11 +28,17 @@ def download_copycode_plugin(tag: str) -> None:
     plugin_dir_path = get_plugin_dir()
     plugin_dir_path.mkdir(parents=True, exist_ok=True)
 
-    if (plugin_dir_path / "copycode").exists():
-        logger.info("✅ Reveal.js CopyCode plugin is already installed")
+    copycode_path = plugin_dir_path / "copycode"
+    copycode_path.mkdir(exist_ok=True)
+    version_dir = copycode_path / tag
+
+    if version_dir.exists():
+        logger.info(
+            f"✅ Reveal.js CopyCode plugin version {tag} is already installed"
+        )
     else:
         logger.info(
-            "Reveal.js CopyCode plugin is not yet installed. "
+            f"Reveal.js CopyCode plugin version {tag} is not yet installed. "
             "Need to install it"
         )
         url = (
@@ -59,24 +65,34 @@ def download_copycode_plugin(tag: str) -> None:
                     )
                 except KeyError:
                     pass
-            shutil.move(
+
+            version_dir.mkdir(parents=True, exist_ok=True)
+
+            src_dir = (
                 tmpdir_path
-                / f"reveal.js-copycode-{version_number}/plugin/copycode",
-                plugin_dir_path,
+                / f"reveal.js-copycode-{version_number}/plugin/copycode"
             )
-            logger.info("✅ Installed Reveal.js CopyCode plugin")
+            for file in src_dir.glob("*"):
+                shutil.copy(file, version_dir)
+
+            logger.info(
+                f"✅ Installed Reveal.js CopyCode plugin version {tag}"
+            )
 
 
 def tweak_builder_config(app: Sphinx, config: Config) -> None:
+    tag = config.revealjs_copycode_tag
+
     revealjs_script_plugins = [
         plugin
         for plugin in config.revealjs_script_plugins
         if plugin["name"] != "CopyCode"
     ]
+
     revealjs_script_plugins.append(
         {
             "name": "CopyCode",
-            "src": "revealjs/plugin/copycode/copycode.js",
+            "src": f"revealjs/plugin/copycode/{tag}/copycode.js",
         }
     )
     config.revealjs_script_plugins = revealjs_script_plugins
@@ -88,10 +104,16 @@ def copy_copycode_assets(app: Sphinx, exc):
     if exc is not None:  # Build failed
         return
 
-    copy_asset(
-        get_plugin_dir() / "copycode",
-        app.outdir / "_static" / "revealjs" / "plugin" / "copycode",
+    tag = app.config.revealjs_copycode_tag
+
+    src_dir = get_plugin_dir() / "copycode" / tag
+
+    dest_dir = (
+        app.outdir / "_static" / "revealjs" / "plugin" / "copycode" / tag
     )
+    dest_dir.mkdir(parents=True, exist_ok=True)
+
+    copy_asset(src_dir, dest_dir)
 
 
 def setup(app: Sphinx) -> ExtensionMetadata:
