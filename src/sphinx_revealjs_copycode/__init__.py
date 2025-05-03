@@ -26,12 +26,10 @@ def get_plugin_dir() -> Path:
 
 def download_copycode_plugin(tag: str) -> None:
     plugin_dir_path = get_plugin_dir()
-    plugin_dir_path.mkdir(parents=True, exist_ok=True)
-
     copycode_path = plugin_dir_path / "copycode"
-    copycode_path.mkdir(exist_ok=True)
-    version_dir = copycode_path / tag
+    copycode_path.mkdir(parents=True, exist_ok=True)
 
+    version_dir = copycode_path / tag
     if version_dir.exists():
         logger.info(
             "✅ Reveal.js CopyCode plugin version {%s} is already installed",
@@ -68,14 +66,13 @@ def download_copycode_plugin(tag: str) -> None:
                 except KeyError:
                     pass
 
-            version_dir.mkdir(parents=True, exist_ok=True)
-
+            version_dir.mkdir(exist_ok=True)
             src_dir = (
                 tmpdir_path
                 / f"reveal.js-copycode-{version_number}/plugin/copycode"
             )
-            for file in src_dir.glob("*"):
-                shutil.copy(file, version_dir)
+            for file in src_dir.iterdir():
+                shutil.move(file, version_dir)
 
             logger.info(
                 "✅ Installed Reveal.js CopyCode plugin version {%s}", tag
