@@ -16,7 +16,7 @@ if TYPE_CHECKING:
     from sphinx.application import Sphinx
     from sphinx.config import Config
 
-__version__ = "0.4.0"
+__version__ = "0.4.1"
 logger = logging.getLogger(__name__)
 
 
