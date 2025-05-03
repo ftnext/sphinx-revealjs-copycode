@@ -48,23 +48,17 @@ def download_copycode_plugin(tag: str) -> None:
         with urlopen(url) as response:
             bytes_stream = BytesIO(response.read())
         with ZipFile(bytes_stream) as zf, TemporaryDirectory() as tmpdir:
-            tmpdir_path = Path(tmpdir)
             version_number = tag.removeprefix("v")
-            for plugin_file in [
-                "copycode.css",
-                "copycode.esm.js",  # v1.2.0
-                "copycode.js",
-                "copycode.mjs",  # v1.3.0
-            ]:
-                base_path = f"reveal.js-copycode-{version_number}"
-                plugin_path = f"{base_path}/plugin/copycode/{plugin_file}"
-                try:
-                    zf.extract(
-                        plugin_path,
-                        path=tmpdir_path,
-                    )
-                except KeyError:
-                    pass
+            copycode_files = [
+                member
+                for member in zf.namelist()
+                if member.startswith(
+                    f"reveal.js-copycode-{version_number}/plugin/copycode"
+                )
+            ]
+
+            tmpdir_path = Path(tmpdir)
+            zf.extractall(tmpdir_path, copycode_files)
 
             version_dir.mkdir(exist_ok=True)
             src_dir = (
