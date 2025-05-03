@@ -86,7 +86,6 @@ def test_script_refer_copycode_with_other_plugins(app: SphinxTestApp) -> None:
     assert_revealjs_script_tag_with_code(contents, "CopyCode,")
 
 
-@pytest.mark.reinstall
 @pytest.mark.sphinx("revealjs", testroot="custom-copycode-version")
 def test_custom_copycode_version(app: SphinxTestApp) -> None:
     app.build()
