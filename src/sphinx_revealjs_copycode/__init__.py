@@ -34,15 +34,17 @@ def download_copycode_plugin(tag: str) -> None:
 
     if version_dir.exists():
         logger.info(
-            f"✅ Reveal.js CopyCode plugin version {tag} is already installed"
+            "✅ Reveal.js CopyCode plugin version {%s} is already installed",
+            tag,
         )
     else:
         logger.info(
-            f"Reveal.js CopyCode plugin version {tag} is not yet installed. "
-            "Need to install it"
+            "Reveal.js CopyCode plugin version {%s} is not yet installed. "
+            "Need to install it",
+            tag,
         )
         url = (
-            f"https://github.com/Martinomagnifico/reveal.js-copycode/"
+            "https://github.com/Martinomagnifico/reveal.js-copycode/"
             f"archive/refs/tags/{tag}.zip"
         )
         with urlopen(url) as response:
@@ -76,7 +78,7 @@ def download_copycode_plugin(tag: str) -> None:
                 shutil.copy(file, version_dir)
 
             logger.info(
-                f"✅ Installed Reveal.js CopyCode plugin version {tag}"
+                "✅ Installed Reveal.js CopyCode plugin version {%s}", tag
             )
 
 
