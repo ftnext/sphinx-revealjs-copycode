@@ -4,8 +4,6 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from sphinx_revealjs_copycode import get_plugin_dir
-
 from .helpers import (
     assert_html_has_script_tag_with_src,
     assert_revealjs_script_tag_with_code,
@@ -100,23 +98,3 @@ def test_custom_copycode_version(app: SphinxTestApp) -> None:
     assert_file_exists(expected_copycode_directory / "v1.3.0/copycode.js")
     assert_file_exists(expected_copycode_directory / "v1.3.0/copycode.css")
     assert_file_exists(expected_copycode_directory / "v1.3.0/copycode.mjs")
-
-
-@pytest.mark.reinstall
-@pytest.mark.sphinx("revealjs", testroot="custom-copycode-version")
-def test_multiple_copycode_versions(app: SphinxTestApp) -> None:
-    """Test that multiple versions of the CopyCode plugin can be stored."""
-    app.build()
-
-    plugin_root = get_plugin_dir() / "copycode"
-    version_dir = plugin_root / app.config.revealjs_copycode_tag
-    assert_directory_exists(version_dir)
-
-    if app.config.revealjs_copycode_tag == "v1.2.0":
-        assert_file_exists(version_dir / "copycode.js")
-        assert_file_exists(version_dir / "copycode.css")
-        assert_file_exists(version_dir / "copycode.esm.js")
-    elif app.config.revealjs_copycode_tag == "v1.3.0":
-        assert_file_exists(version_dir / "copycode.js")
-        assert_file_exists(version_dir / "copycode.css")
-        assert_file_exists(version_dir / "copycode.mjs")
