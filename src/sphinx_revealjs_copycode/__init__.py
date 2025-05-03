@@ -85,7 +85,6 @@ def tweak_builder_config(app: Sphinx, config: Config) -> None:
         for plugin in config.revealjs_script_plugins
         if plugin["name"] != "CopyCode"
     ]
-
     revealjs_script_plugins.append(
         {
             "name": "CopyCode",
