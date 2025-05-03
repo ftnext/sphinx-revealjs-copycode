@@ -32,12 +32,12 @@ def download_copycode_plugin(tag: str) -> None:
     version_dir = copycode_path / tag
     if version_dir.exists():
         logger.info(
-            "✅ Reveal.js CopyCode plugin version {%s} is already installed",
+            "✅ Reveal.js CopyCode plugin version %s is already installed",
             tag,
         )
     else:
         logger.info(
-            "Reveal.js CopyCode plugin version {%s} is not yet installed. "
+            "Reveal.js CopyCode plugin version %s is not yet installed. "
             "Need to install it",
             tag,
         )
@@ -75,7 +75,7 @@ def download_copycode_plugin(tag: str) -> None:
                 shutil.move(file, version_dir)
 
             logger.info(
-                "✅ Installed Reveal.js CopyCode plugin version {%s}", tag
+                "✅ Installed Reveal.js CopyCode plugin version %s", tag
             )
 
 
