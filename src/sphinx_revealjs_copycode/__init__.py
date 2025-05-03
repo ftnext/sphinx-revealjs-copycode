@@ -80,8 +80,6 @@ def download_copycode_plugin(tag: str) -> None:
 
 
 def tweak_builder_config(app: Sphinx, config: Config) -> None:
-    tag = config.revealjs_copycode_tag
-
     revealjs_script_plugins = [
         plugin
         for plugin in config.revealjs_script_plugins
@@ -91,7 +89,7 @@ def tweak_builder_config(app: Sphinx, config: Config) -> None:
     revealjs_script_plugins.append(
         {
             "name": "CopyCode",
-            "src": f"revealjs/plugin/copycode/{tag}/copycode.js",
+            "src": "revealjs/plugin/copycode/copycode.js",
         }
     )
     config.revealjs_script_plugins = revealjs_script_plugins
@@ -107,9 +105,7 @@ def copy_copycode_assets(app: Sphinx, exc):
 
     src_dir = get_plugin_dir() / "copycode" / tag
 
-    dest_dir = (
-        app.outdir / "_static" / "revealjs" / "plugin" / "copycode" / tag
-    )
+    dest_dir = app.outdir / "_static" / "revealjs" / "plugin" / "copycode"
     dest_dir.mkdir(parents=True, exist_ok=True)
 
     copy_asset(src_dir, dest_dir)

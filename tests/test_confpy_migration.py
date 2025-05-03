@@ -32,10 +32,10 @@ def test_script_src_no_revealjs4(app: SphinxTestApp) -> None:
 
     contents = (app.outdir / "index.html").read_text()
     assert_html_not_have_script_tag_with_src(
-        contents, "_static/revealjs4/plugin/copycode/v1.2.0/copycode.js"
+        contents, "_static/revealjs4/plugin/copycode/copycode.js"
     )
     assert_html_has_script_tag_with_src(
-        contents, "_static/revealjs/plugin/copycode/v1.2.0/copycode.js"
+        contents, "_static/revealjs/plugin/copycode/copycode.js"
     )
 
 
@@ -58,7 +58,7 @@ def test_script_src_with_revealjs_only_once(app: SphinxTestApp) -> None:
 
     contents = (app.outdir / "index.html").read_text()
     assert_html_has_script_tag_with_src(
-        contents, "_static/revealjs/plugin/copycode/v1.2.0/copycode.js"
+        contents, "_static/revealjs/plugin/copycode/copycode.js"
     )
 
 
