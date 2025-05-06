@@ -109,7 +109,7 @@ def setup(app: Sphinx) -> ExtensionMetadata:
         version=__version__, parallel_read_safe=False, parallel_write_safe=True
     )
 
-    app.add_config_value("revealjs_copycode_tag", "v1.2.0", "html")
+    app.add_config_value("revealjs_copycode_tag", "v1.3.0", "html")
 
     download_copycode_plugin(app.config.revealjs_copycode_tag)
 

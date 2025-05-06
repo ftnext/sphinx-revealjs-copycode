@@ -30,7 +30,7 @@ def assert_copycode_static_files_exist(
 ) -> None:
     assert_file_exists(expected_copycode_directory / "copycode.js")
     assert_file_exists(expected_copycode_directory / "copycode.css")
-    assert_file_exists(expected_copycode_directory / "copycode.esm.js")
+    assert_file_exists(expected_copycode_directory / "copycode.mjs")
 
 
 @pytest.mark.sphinx("revealjs", testroot="single-plugin-copycode")
@@ -96,4 +96,4 @@ def test_custom_copycode_version(app: SphinxTestApp) -> None:
     assert_directory_exists(expected_copycode_directory)
     assert_file_exists(expected_copycode_directory / "copycode.js")
     assert_file_exists(expected_copycode_directory / "copycode.css")
-    assert_file_exists(expected_copycode_directory / "copycode.mjs")
+    assert_file_exists(expected_copycode_directory / "copycode.esm.js")
