@@ -29,7 +29,7 @@ extensions = [
 You can specify the version of reveal.js-copycode plugin to use by setting `revealjs_copycode_tag` in your `conf.py`:
 
 ```python
-revealjs_copycode_tag = "v1.2.0"  # Default is "v1.3.0"
+revealjs_copycode_tag = "v1.2.0"  # Example: Set a custom version. Default is "v1.3.0".
 ```
 
 This allows you to use a specific version of the plugin if needed.
